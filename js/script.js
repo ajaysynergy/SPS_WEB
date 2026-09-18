@@ -29,10 +29,6 @@ function applyManagedImages() {
     "--logo-image",
     `url("${imageBank.logo}")`,
   );
-  const hero = document.querySelector(".hero");
-  if (hero) {
-    hero.style.backgroundImage = `linear-gradient(90deg, rgba(5, 20, 40, 0.88) 0%, rgba(5, 20, 40, 0.55) 53%, rgba(5, 20, 40, 0.22) 100%), url("${imageBank.campus}")`;
-  }
   const footerMark = document.querySelector(".site-footer .brand-mark");
   if (footerMark) {
     const footerLogo = document.createElement("img");
@@ -53,10 +49,89 @@ function applyManagedImages() {
     }
   });
 }
+function initHeroSlider() {
+  const hero = document.querySelector(".hero");
+  const slides = [...document.querySelectorAll(".hero-slide")];
+  const dots = [...document.querySelectorAll(".hero-dot")];
+  if (!hero || slides.length < 2) return;
+  slides.forEach((slide) => {
+    slide.style.backgroundImage = `linear-gradient(90deg, rgba(5, 20, 40, 0.9) 0%, rgba(5, 20, 40, 0.58) 52%, rgba(5, 20, 40, 0.24) 100%), url("${slide.dataset.image}")`;
+  });
+  let current = 0;
+  let timer;
+  const show = (index) => {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) =>
+      slide.classList.toggle("is-active", i === current),
+    );
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === current);
+      dot.toggleAttribute("aria-current", i === current);
+    });
+  };
+  const start = () => {
+    clearInterval(timer);
+    timer = setInterval(() => show(current + 1), 6500);
+  };
+  dots.forEach((dot) =>
+    dot.addEventListener("click", () => {
+      show(Number(dot.dataset.heroDot));
+      start();
+    }),
+  );
+  hero.querySelector("[data-hero-prev]")?.addEventListener("click", () => {
+    show(current - 1);
+    start();
+  });
+  hero.querySelector("[data-hero-next]")?.addEventListener("click", () => {
+    show(current + 1);
+    start();
+  });
+  hero.addEventListener("mouseenter", () => clearInterval(timer));
+  hero.addEventListener("mouseleave", start);
+  show(0);
+  start();
+}
+function initHeroTypewriter() {
+  const target = document.querySelector("#hero-typed-text");
+  if (!target) return;
+  const phrases = [
+    "Welcome to Suraj Public School",
+    "Where every learner finds a direction",
+    "Growing curious minds with care",
+    "A brighter beginning starts here",
+  ];
+  let phraseIndex = 0;
+  let characterIndex = 0;
+  let deleting = false;
+  const tick = () => {
+    const phrase = phrases[phraseIndex];
+    target.textContent = phrase.slice(0, characterIndex);
+    if (!deleting && characterIndex < phrase.length) {
+      characterIndex += 1;
+      setTimeout(tick, 72);
+      return;
+    }
+    if (!deleting) {
+      deleting = true;
+      setTimeout(tick, 1800);
+      return;
+    }
+    if (characterIndex > 0) {
+      characterIndex -= 1;
+      setTimeout(tick, 38);
+      return;
+    }
+    deleting = false;
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+    setTimeout(tick, 420);
+  };
+  tick();
+}
 const navItems = [
   ["index.html", "Home"],
   ["about.html", "About"],
-  ["academics.html", "Academics"],
+  ["our-teachers.html", "Our Teachers"],
   ["admissions.html", "Admissions"],
   ["activities.html", "Activities"],
   ["gallery.html", "Gallery"],
@@ -67,7 +142,7 @@ function header() {
   return `<header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html" aria-label="Suraj Public School home"><img class="brand-logo" src="${imageBank.logo}" alt="Suraj Public School logo"><span class="brand-copy"><strong>Suraj Public School</strong><small>Kotkasim, Rajasthan</small></span></a><button class="menu-toggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button><nav class="main-nav" aria-label="Primary navigation">${navItems.map(([url, label]) => `<a class="${current === url ? "active" : ""}" href="${url}">${label}</a>`).join("")}<a href="admissions.html#enquiry" class="btn btn--gold nav-cta">Enquire Now</a></nav></div></header>`;
 }
 function footer() {
-  return `<footer class="site-footer"><div class="container footer-grid"><div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark">S</span><span class="brand-copy"><strong>Suraj Public School</strong><small>Kotkasim, Rajasthan</small></span></a><p>A trusted learning community shaping confident, thoughtful and future-ready learners through education, discipline and character.</p><div class="socials"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">ig</a><a href="#" aria-label="YouTube">▶</a></div></div><div><h3>Quick Links</h3><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="academics.html">Academics</a></li><li><a href="admissions.html">Admissions</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div><div><h3>School</h3><ul class="footer-links"><li><a href="principal.html">Principal</a></li><li><a href="activities.html">Activities</a></li><li><a href="coding-robotics.html">Coding & Robotics</a></li><li><a href="projects.html">Projects</a></li><li><a href="achievements.html">Achievements</a></li><li><a href="events.html">Events</a></li></ul></div><div><h3>Important</h3><ul class="footer-links"><li><a href="mandatory-disclosure.html">Mandatory Public Disclosure</a></li><li><a href="annual-report.html">Annual Report</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul><p style="color:#b7c5d4;font-size:.85rem">Chowki Road, Kotkasim,<br>Rajasthan - 301702<br><a href="tel:9950711477">99507 11477</a></p></div></div><div class="container footer-bottom"><span>&copy; 2026 Suraj Public School, Kotkasim. All Rights Reserved.</span><span>CBSE Affiliation No. 1730355</span></div></footer>`;
+  return `<footer class="site-footer"><div class="container footer-grid"><div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark">S</span><span class="brand-copy"><strong>Suraj Public School</strong><small>Kotkasim, Rajasthan</small></span></a><p>A trusted learning community shaping confident, thoughtful and future-ready learners through education, discipline and character.</p><div class="socials"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">ig</a><a href="#" aria-label="YouTube">▶</a></div></div><div><h3>Quick Links</h3><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="our-teachers.html">Our Teachers</a></li><li><a href="admissions.html">Admissions</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div><div><h3>School</h3><ul class="footer-links"><li><a href="principal.html">Principal</a></li><li><a href="activities.html">Activities</a></li><li><a href="coding-robotics.html">Coding & Robotics</a></li><li><a href="projects.html">Projects</a></li><li><a href="achievements.html">Achievements</a></li><li><a href="events.html">Events</a></li></ul></div><div><h3>Important</h3><ul class="footer-links"><li><a href="mandatory-disclosure.html">Mandatory Public Disclosure</a></li><li><a href="annual-report.html">Annual Report</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul><p style="color:#b7c5d4;font-size:.85rem">Chowki Road, Kotkasim,<br>Rajasthan - 301702<br><a href="tel:9950711477">99507 11477</a></p></div></div><div class="container footer-bottom"><span>&copy; 2026 Suraj Public School, Kotkasim. All Rights Reserved.</span><span>CBSE Affiliation No. 1730355</span></div></footer>`;
 }
 function shell() {
   document.body.insertAdjacentHTML("afterbegin", header());
@@ -224,13 +299,63 @@ function initModal() {
 function initForms() {
   document.querySelectorAll("form[data-validate]").forEach((form) =>
     form.addEventListener("submit", (e) => {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+      if (form.hasAttribute("data-email-delivery")) return;
       e.preventDefault();
+      form.reset();
+      form.querySelector(".form-message").classList.add("show");
+    }),
+  );
+  document.querySelectorAll("[data-whatsapp-enquiry]").forEach((button) =>
+    button.addEventListener("click", () => {
+      const form = button.closest("form");
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
-      form.reset();
-      form.querySelector(".form-message").classList.add("show");
+      const value = (name) =>
+        form.elements[name]?.value.trim() || "Not provided";
+      const message = [
+        "Hello Suraj Public School, I would like to make an admission enquiry.",
+        `Student Name: ${value("student")}`,
+        `Parent/Guardian Name: ${value("parent")}`,
+        `Class Applying For: ${value("class")}`,
+        `Mobile Number: ${value("mobile")}`,
+        `Email: ${value("email")}`,
+        `Message: ${value("message")}`,
+      ].join("\n");
+      window.open(
+        `https://wa.me/919950711477?text=${encodeURIComponent(message)}`,
+        "_blank",
+        "noopener",
+      );
+    }),
+  );
+  document.querySelectorAll("[data-whatsapp-contact]").forEach((button) =>
+    button.addEventListener("click", () => {
+      const form = button.closest("form");
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const name = form.elements.name.value.trim();
+      const phone = form.elements.phone.value.trim();
+      const message = form.elements.message.value.trim();
+      const whatsappMessage = [
+        "Hello Suraj Public School, I would like to send a message.",
+        `Name: ${name}`,
+        `Mobile Number: ${phone}`,
+        `Message: ${message}`,
+      ].join("\n");
+      window.open(
+        `https://wa.me/919950711477?text=${encodeURIComponent(whatsappMessage)}`,
+        "_blank",
+        "noopener",
+      );
     }),
   );
 }
@@ -238,6 +363,8 @@ document.addEventListener("DOMContentLoaded", () => {
   shell();
   applyManagedImages();
   initNav();
+  initHeroSlider();
+  initHeroTypewriter();
   initReveal();
   initFilters();
   initGallery();

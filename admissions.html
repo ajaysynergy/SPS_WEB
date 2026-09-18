@@ -134,8 +134,8 @@
             <div class="eyebrow">Admission enquiry</div>
             <h2>Tell us how we can help.</h2>
             <p>
-              Submit this form to prepare an enquiry. It is a demonstration form
-              and does not send information to a live server.
+              Submit this form and the school team will receive your enquiry by
+              email.
             </p>
             <p>
               <strong>Chowki Road, Kotkasim, Rajasthan - 301702</strong><br /><a
@@ -152,7 +152,35 @@
               >WhatsApp the school</a
             >
           </div>
-          <form class="contact-card reveal" data-validate>
+          <form
+            class="contact-card reveal"
+            data-validate
+            data-email-delivery
+            action="https://api.web3forms.com/submit"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="access_key"
+              value="b54a2250-2af6-4d6b-8bc1-9642dfb830ba"
+            />
+            <input
+              type="hidden"
+              name="subject"
+              value="New Admission Enquiry | Suraj Public School"
+            />
+            <input
+              type="hidden"
+              name="from_name"
+              value="Suraj Public School Website"
+            />
+            <input
+              type="checkbox"
+              name="botcheck"
+              class="form-trap"
+              tabindex="-1"
+              autocomplete="off"
+            />
             <div class="form-grid">
               <div class="field">
                 <label for="student">Student Name</label
@@ -185,14 +213,22 @@
                 ><textarea id="message" name="message" required></textarea>
               </div>
               <div class="field full">
-                <button class="btn btn--gold" type="submit">
-                  Send enquiry
-                </button>
+                <div class="enquiry-actions">
+                  <button class="btn btn--gold" type="submit">
+                    Send enquiry by email
+                  </button>
+                  <button
+                    class="btn btn--whatsapp"
+                    type="button"
+                    data-whatsapp-enquiry
+                  >
+                    Send on WhatsApp
+                  </button>
+                </div>
               </div>
             </div>
             <div class="form-message">
-              Thank you. Your enquiry has been recorded in this demonstration
-              form. Please call the school directly for a real conversation.
+              Thank you. Your enquiry has been sent to the school.
             </div>
           </form>
         </div>

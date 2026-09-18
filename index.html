@@ -22,23 +22,25 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- Replace this temporary image with the school's official campus photograph -->
     <main>
       <section class="hero">
+        <div class="hero-slides" aria-hidden="true">
+          <div
+            class="hero-slide is-active"
+            data-image="assets/images/campus.jpg"
+          ></div>
+          <div class="hero-slide" data-image="assets/images/image1.png"></div>
+          <div class="hero-slide" data-image="assets/images/image2.png"></div>
+          <div class="hero-slide" data-image="assets/images/image3.png"></div>
+        </div>
         <div class="container hero-inner reveal">
-          <span class="badge"
-            >CBSE Affiliated &nbsp;•&nbsp; Senior Secondary</span
-          >
-          <div class="eyebrow">Suraj Public School · Kotkasim, Rajasthan</div>
+          <div class="hero-type" aria-live="polite">
+            <span id="hero-typed-text"></span
+            ><span class="hero-caret" aria-hidden="true"></span>
+          </div>
           <h1 class="display">
             Learning Today,<br /><em>Leading Tomorrow.</em>
           </h1>
-          <p>
-            At Suraj Public School, we believe that education is more than
-            academic learning. It is a journey of discovering potential,
-            developing character, nurturing curiosity and preparing young minds
-            for a changing world.
-          </p>
           <div class="hero-actions">
             <a class="btn btn--gold" href="#welcome"
               >Explore Our School <span>↘</span></a
@@ -46,6 +48,51 @@
               >Admission Enquiry</a
             >
           </div>
+        </div>
+        <div class="hero-controls" aria-label="Homepage highlights">
+          <button
+            class="hero-arrow"
+            type="button"
+            data-hero-prev
+            aria-label="Previous highlight"
+          >
+            ←
+          </button>
+          <div class="hero-dots">
+            <button
+              class="hero-dot is-active"
+              type="button"
+              data-hero-dot="0"
+              aria-label="Show campus highlight"
+              aria-current="true"
+            ></button>
+            <button
+              class="hero-dot"
+              type="button"
+              data-hero-dot="1"
+              aria-label="Show learning highlight"
+            ></button>
+            <button
+              class="hero-dot"
+              type="button"
+              data-hero-dot="2"
+              aria-label="Show creativity highlight"
+            ></button>
+            <button
+              class="hero-dot"
+              type="button"
+              data-hero-dot="3"
+              aria-label="Show achievement highlight"
+            ></button>
+          </div>
+          <button
+            class="hero-arrow"
+            type="button"
+            data-hero-next
+            aria-label="Next highlight"
+          >
+            →
+          </button>
         </div>
         <a class="scroll-cue" href="#welcome">Scroll to explore</a>
       </section>
@@ -172,8 +219,8 @@
                   Conceptual clarity, consistent practice and supportive
                   guidance help learners make meaningful academic progress.
                 </p>
-                <a class="card-link" href="academics.html"
-                  >Explore academics →</a
+                <a class="card-link" href="our-teachers.html"
+                  >Meet our teachers →</a
                 >
               </div>
             </article>

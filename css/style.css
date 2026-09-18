@@ -155,6 +155,18 @@ button {
   background: var(--navy-900);
   color: var(--white);
 }
+.btn--whatsapp {
+  background: #25d366;
+  color: #062d18;
+}
+.btn--whatsapp:hover {
+  background: #54e487;
+}
+.enquiry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 .btn--light {
   background: var(--white);
   color: var(--navy-900);
@@ -296,23 +308,68 @@ button {
     url("../assets/images/campus.jpg");
   background-size: cover;
   background-position: center;
+  isolation: isolate;
+  overflow: hidden;
+}
+.hero-slides,
+.hero-slide {
+  position: absolute;
+  inset: 0;
+}
+.hero-slides {
+  z-index: 0;
+  background: var(--navy-950);
+}
+.hero-slide {
+  background-color: var(--navy-950);
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 1s ease,
+    transform 7s ease;
+}
+.hero-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
 }
 .hero-inner {
   padding: 170px 0 105px;
   max-width: 780px;
+  position: relative;
+  z-index: 1;
 }
 .hero .eyebrow {
   color: #f3cd80;
 }
+.hero-type {
+  min-height: 38px;
+  margin-top: 5px;
+  color: #f3cd80;
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2.1vw, 1.65rem);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+.hero-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-left: 5px;
+  vertical-align: -0.15em;
+  background: var(--gold);
+  animation: caret-blink 0.8s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
 .hero h1 {
   font-size: clamp(3.1rem, 7vw, 6.6rem);
   line-height: 0.95;
-  margin: 20px 0 24px;
-}
-.hero p {
-  max-width: 650px;
-  font-size: 1.08rem;
-  color: #e4eaf0;
+  margin: 12px 0 24px;
 }
 .hero-actions {
   display: flex;
@@ -348,6 +405,46 @@ button {
   height: 52px;
   width: 1px;
   background: var(--gold);
+}
+.hero-controls {
+  position: absolute;
+  z-index: 2;
+  right: 5%;
+  bottom: 34px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-dots {
+  display: flex;
+  gap: 8px;
+}
+.hero-dot,
+.hero-arrow {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(5, 20, 40, 0.3);
+  color: var(--white);
+  cursor: pointer;
+}
+.hero-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  background: rgba(255, 255, 255, 0.5);
+}
+.hero-dot.is-active {
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(217, 170, 85, 0.2);
+}
+.hero-arrow:hover {
+  border-color: var(--gold);
+  color: var(--gold);
 }
 .page-hero {
   padding: 170px 0 70px;
@@ -725,6 +822,13 @@ button {
 .field.full {
   grid-column: 1/-1;
 }
+.form-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
 .field label {
   font-size: 0.82rem;
   font-weight: 800;
@@ -1057,16 +1161,29 @@ button {
     background-position: 60% center;
   }
   .hero-inner {
-    padding: 145px 0 75px;
+    padding: 128px 0 112px;
   }
   .hero h1 {
-    font-size: clamp(3rem, 15vw, 5rem);
+    font-size: clamp(2.65rem, 11vw, 4rem);
+    line-height: 0.94;
+    margin: 16px 0 18px;
+  }
+  .hero-type {
+    margin-top: 15px;
+    font-size: 1.08rem;
   }
   .hero p {
-    font-size: 0.98rem;
+    max-width: 520px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    min-height: 0;
   }
   .scroll-cue {
     display: none;
+  }
+  .hero-controls {
+    right: 15px;
+    bottom: 22px;
   }
   .split,
   .split--wide {
@@ -1142,6 +1259,12 @@ button {
     flex-direction: column;
   }
   .hero-actions .btn {
+    width: 100%;
+  }
+  .enquiry-actions {
+    flex-direction: column;
+  }
+  .enquiry-actions .btn {
     width: 100%;
   }
   .glance-card {
