@@ -1008,14 +1008,37 @@ button {
   .container {
     width: min(100% - 30px, 620px);
   }
+  .academics-page .site-header {
+    width: 100%;
+    overflow: visible;
+  }
   .section {
     padding: 72px 0;
   }
-  .nav-wrap {
+  .academics-page .nav-wrap {
     height: 72px;
+    min-width: 0;
   }
-  .menu-toggle {
+  .academics-page .brand {
+    min-width: 0;
+    max-width: calc(100% - 58px);
+    gap: 8px;
+  }
+  .academics-page .brand-logo {
+    flex: 0 0 44px;
+  }
+  .academics-page .brand-copy {
+    min-width: 0;
+  }
+  .academics-page .brand-copy strong,
+  .academics-page .brand-copy small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .academics-page .menu-toggle {
     display: block;
+    flex: 0 0 44px;
   }
   .main-nav {
     position: absolute;
