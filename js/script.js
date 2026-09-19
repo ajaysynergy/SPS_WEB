@@ -1,8 +1,8 @@
 // Change image paths here once; managed campus, logo and principal images update site-wide.
 const imageBank = {
-  campus: "assets/images/campus.jpg",
-  logo: "assets/images/logo.jpg",
-  principal: "assets/images/principal.png",
+  campus: "assets/images/home/campus-building.jpg",
+  logo: "assets/images/shared/school-logo.jpg",
+  principal: "assets/images/principal/principal-portrait.png",
   students:
     "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=82",
   classroom:
@@ -37,48 +37,25 @@ function applyManagedImages() {
     footerLogo.alt = "Suraj Public School logo";
     footerMark.replaceWith(footerLogo);
   }
-  document.querySelectorAll("img").forEach((image) => {
-    const description = (image.alt || "").toLowerCase();
-    if (description.includes("principal")) image.src = imageBank.principal;
-    if (
-      description.includes("campus") ||
-      description.includes("school building") ||
-      description.includes("welcoming school")
-    ) {
-      image.src = imageBank.campus;
-    }
-  });
 }
 function initHeroSlider() {
   const hero = document.querySelector(".hero");
   const slides = [...document.querySelectorAll(".hero-slide")];
-  const dots = [...document.querySelectorAll(".hero-dot")];
   if (!hero || slides.length < 2) return;
   slides.forEach((slide) => {
-    slide.style.backgroundImage = `linear-gradient(90deg, rgba(5, 20, 40, 0.9) 0%, rgba(5, 20, 40, 0.58) 52%, rgba(5, 20, 40, 0.24) 100%), url("${slide.dataset.image}")`;
+    slide.style.backgroundImage = `url("${slide.dataset.image}")`;
   });
   let current = 0;
   let timer;
   const show = (index) => {
     current = (index + slides.length) % slides.length;
-    slides.forEach((slide, i) =>
-      slide.classList.toggle("is-active", i === current),
-    );
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("is-active", i === current);
-      dot.toggleAttribute("aria-current", i === current);
-    });
+    const track = document.querySelector(".hero-slides");
+    if (track) track.style.transform = `translateX(-${current * 100}%)`;
   };
   const start = () => {
     clearInterval(timer);
-    timer = setInterval(() => show(current + 1), 6500);
+    timer = setInterval(() => show(current + 1), 5000);
   };
-  dots.forEach((dot) =>
-    dot.addEventListener("click", () => {
-      show(Number(dot.dataset.heroDot));
-      start();
-    }),
-  );
   hero.querySelector("[data-hero-prev]")?.addEventListener("click", () => {
     show(current - 1);
     start();
@@ -132,6 +109,7 @@ const navItems = [
   ["index.html", "Home"],
   ["about.html", "About"],
   ["our-teachers.html", "Our Teachers"],
+  ["results.html", "Results"],
   ["admissions.html", "Admissions"],
   ["activities.html", "Activities"],
   ["gallery.html", "Gallery"],
@@ -139,7 +117,8 @@ const navItems = [
 ];
 function header() {
   const current = location.pathname.split("/").pop() || "index.html";
-  return `<header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html" aria-label="Suraj Public School home"><img class="brand-logo" src="${imageBank.logo}" alt="Suraj Public School logo"><span class="brand-copy"><strong>Suraj Public School</strong><small>Kotkasim, Rajasthan</small></span></a><button class="menu-toggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button><nav class="main-nav" aria-label="Primary navigation">${navItems.map(([url, label]) => `<a class="${current === url ? "active" : ""}" href="${url}">${label}</a>`).join("")}<a href="admissions.html#enquiry" class="btn btn--gold nav-cta">Enquire Now</a></nav></div></header>`;
+  const homeClass = current === "index.html" ? " site-header--home" : "";
+  return `<header class="site-header${homeClass}"><div class="container nav-wrap"><a class="brand" href="index.html" aria-label="Suraj Public School home"><img class="brand-logo" src="${imageBank.logo}" alt="Suraj Public School logo"><span class="brand-copy"><strong>Suraj Public School</strong><small>Kotkasim, Rajasthan</small></span></a><button class="menu-toggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button><nav class="main-nav" aria-label="Primary navigation">${navItems.map(([url, label]) => `<a class="${current === url ? "active" : ""}" href="${url}">${label}</a>`).join("")}<a href="admissions.html#enquiry" class="btn btn--gold nav-cta">Enquire Now</a></nav></div></header>`;
 }
 function footer() {
   return `<footer class="site-footer"><div class="container footer-grid"><div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark">S</span><span class="brand-copy"><strong>Suraj Public School</strong><small>Kotkasim, Rajasthan</small></span></a><p>A trusted learning community shaping confident, thoughtful and future-ready learners through education, discipline and character.</p><div class="socials"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">ig</a><a href="#" aria-label="YouTube">▶</a></div></div><div><h3>Quick Links</h3><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="our-teachers.html">Our Teachers</a></li><li><a href="admissions.html">Admissions</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div><div><h3>School</h3><ul class="footer-links"><li><a href="principal.html">Principal</a></li><li><a href="activities.html">Activities</a></li><li><a href="coding-robotics.html">Coding & Robotics</a></li><li><a href="projects.html">Projects</a></li><li><a href="achievements.html">Achievements</a></li><li><a href="events.html">Events</a></li></ul></div><div><h3>Important</h3><ul class="footer-links"><li><a href="mandatory-disclosure.html">Mandatory Public Disclosure</a></li><li><a href="annual-report.html">Annual Report</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul><p style="color:#b7c5d4;font-size:.85rem">Chowki Road, Kotkasim,<br>Rajasthan - 301702<br><a href="tel:9950711477">99507 11477</a></p></div></div><div class="container footer-bottom"><span>&copy; 2026 Suraj Public School, Kotkasim. All Rights Reserved.</span><span>CBSE Affiliation No. 1730355</span></div></footer>`;
@@ -149,7 +128,7 @@ function shell() {
   document.body.insertAdjacentHTML("beforeend", footer());
   document.body.insertAdjacentHTML(
     "beforeend",
-    '<a class="whatsapp" href="https://wa.me/919950711477?text=Hello%20Suraj%20Public%20School%2C%20I%20would%20like%20to%20enquire%20about%20admission%20and%20school%20information." target="_blank" rel="noopener" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">◔</a><button class="back-top" aria-label="Back to top">↑</button>',
+    '<div class="floating-actions"><a class="whatsapp" href="https://wa.me/919950711477?text=Hello%20Suraj%20Public%20School%2C%20I%20would%20like%20to%20enquire%20about%20admission%20and%20school%20information." target="_blank" rel="noopener" aria-label="Chat on WhatsApp" title="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.8L.2 24l6.6-1.7a11.8 11.8 0 0 0 5.3 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.5-8.3Zm-8.4 18.1h-.1a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.9 1 1-3.8-.3-.4a9.8 9.8 0 1 1 8.7 4.8Zm5.4-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.8-.9-3-1.6-4.2-3.6-.3-.5.3-.5.8-1.6.1-.2.1-.4 0-.6-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.2 3.4 5.4 4.8 2.1.9 2.6 1 3.5.8.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.5-.1-.1-.3-.2-.6-.4Z" /></svg></a><a class="call-action" href="tel:9950711477" aria-label="Call Suraj Public School" title="Call Suraj Public School"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9 2.2c.7-.2 1.4.2 1.7.9l1.1 2.7c.2.6.1 1.2-.4 1.6L10 8.7c1 2.1 2.7 3.8 4.8 4.8l1.3-1.4c.4-.4 1-.6 1.6-.4l2.7 1.1c.7.3 1.1 1 .9 1.7l-.6 2.4c-.2.8-.9 1.4-1.7 1.4C11.3 18.3 5.7 12.7 5.7 5c0-.8.6-1.5 1.4-1.7Z" /></svg></a><button class="back-top" aria-label="Back to top" title="Back to top">↑</button></div>',
   );
 }
 function initNav() {
